@@ -1,5 +1,10 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Suspense } from "react";
+import Loading from "./loading";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -19,12 +24,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <ClerkProvider>
+      <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Suspense fallback={<Loading />}>
         {children}
+        
+        </Suspense>
+        <ToastContainer />
       </body>
     </html>
+    </ClerkProvider>
   );
 }
